@@ -1,8 +1,7 @@
 package main
 
-import "log"
+import "cards/interfaces"
 
 func main() {
-	greeting := "hi there"
-	log.Println([]byte(greeting))
+	interfaces.Interfaces()
 }

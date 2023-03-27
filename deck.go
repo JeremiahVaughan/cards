@@ -1,6 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+	"os"
+	"strings"
+)
 
 type deck []string
 
@@ -22,6 +27,7 @@ func newDeck() deck {
 			)
 		}
 	}
+	result.shuffle()
 	return result
 }
 
@@ -30,5 +36,35 @@ func deal(d deck, handSize int) (deck, deck) {
 }
 
 func (d deck) toString() string {
-	[]string(d)
+	return strings.Join(d, ",")
+}
+
+func (d deck) saveToFile(filename string) error {
+	err := os.WriteFile(
+		filename,
+		[]byte(d.toString()),
+		0644,
+	)
+	if err != nil {
+		return fmt.Errorf("error, when attempting to save the deck to the file: %v", err)
+	}
+	return nil
+}
+
+func newDeckFromFile(filename string) (deck, error) {
+	file, err := os.ReadFile(filename)
+	if err != nil {
+		return nil, fmt.Errorf("error, when attempting to read the file: %v", err)
+	}
+	return strings.Split(
+		string(file),
+		",",
+	), nil
+}
+
+func (d deck) shuffle() {
+	for i := range d {
+		newPosition := rand.Intn(len(d) - 1)
+		d[i], d[newPosition] = d[newPosition], d[i]
+	}
 }

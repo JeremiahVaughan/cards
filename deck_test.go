@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+	"os"
 	"reflect"
 	"testing"
 )
@@ -55,5 +57,30 @@ func Test_deal(t *testing.T) {
 				t.Errorf("deal() got1 = %v, want %v", got1, tt.want1)
 			}
 		})
+	}
+}
+
+func Test_saveToDeckAndNewDeckFromFile(t *testing.T) {
+	filename := "_decktesting"
+	err := os.Remove(filename)
+	if err != nil && err.Error() != "no such file or directory" {
+		t.Errorf("error, during initial file cleanup: %v", err)
+	}
+
+	cards := newDeck()
+	err = cards.saveToFile(filename)
+	if err != nil {
+		log.Fatalf("error, when attempting to save cards to the file: %v", err)
+	}
+
+	savedDeck, err := newDeckFromFile(filename)
+	if err != nil {
+		log.Fatalf("error, when attempting to new deck from file: %v", err)
+	}
+
+	expected := len(cards)
+	got := len(savedDeck)
+	if got != expected {
+		t.Errorf("error, len of deck has changed since writing to a file. Expected %d. Got: %d", expected, got)
 	}
 }
