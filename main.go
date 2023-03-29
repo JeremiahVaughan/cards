@@ -1,7 +1,8 @@
 package main
 
-import "cards/interfaces"
+import "cards/channels"
 
 func main() {
-	interfaces.Interfaces()
+	//assignment_two.AssignmentTwo(os.Args[1])
+	channels.Channels()
 }

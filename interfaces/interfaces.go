@@ -22,7 +22,7 @@ func (englishBot) getGreeting() string {
 	return "hello there"
 }
 
-func (spanishBot) getGreeting() string {
+func (sb spanishBot) getGreeting() string {
 	return "hola amigo"
 }
 
