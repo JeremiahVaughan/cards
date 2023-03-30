@@ -63,6 +63,9 @@ func main() {
 	}
 
 	wg.Wait()
+	// We are closing channels afterwards for two reasons:
+	//    1. Indicate that no more values will be sent on the channel: When you close a channel, you signal to the receivers that there won't be any more values sent on the channel. This can be useful when you have multiple goroutines sending values to a channel and want to signal the receiver that all the goroutines have finished their work.
+	//    2. Allow for iteration using the range keyword: When you close a channel, you can use the range keyword to iterate over the remaining values in the channel until the channel is empty. If the channel is not closed, the range loop will block, waiting for more values, and the loop will not terminate.
 	close(results)
 	close(errors)
 
